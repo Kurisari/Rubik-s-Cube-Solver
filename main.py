@@ -1,10 +1,15 @@
 class RubiksCube:
     def __init__(self):
-        self.stickers = ['F'] * 9 + ['B'] * 9 + ['U'] * 9 + ['D'] * 9 + ['L1'] + ['L'] * 8 + ['R'] * 9
+        self.stickers = ['F'] * 9 + ['B'] * 9 + ['U'] * 9 + ['D'] * 9 + ['L'] * 9 + ['R'] * 9
     
     def x_movement(self, direction):
         if direction == "up":
-            pass
+            temp = self.stickers[6], self.stickers[3], self.stickers[0]
+            self.stickers[6], self.stickers[3], self.stickers[0] = self.stickers[33], self.stickers[30], self.stickers[27]
+            self.stickers[33], self.stickers[30], self.stickers[27] = self.stickers[17], self.stickers[14], self.stickers[11]
+            self.stickers[17], self.stickers[14], self.stickers[11] = self.stickers[24], self.stickers[21], self.stickers[18]
+            self.stickers[24], self.stickers[21], self.stickers[18] = temp
+            self.left_rotation("counterclockwise")
         elif direction == "down":
             temp = self.stickers[0], self.stickers[3], self.stickers[6]
             self.stickers[0], self.stickers[3], self.stickers[6] = self.stickers[18], self.stickers[21], self.stickers[24]
@@ -25,7 +30,15 @@ class RubiksCube:
             self.stickers[38] = self.stickers[37]
             self.stickers[37] = temp
         elif direction == "counterclockwise":
-            pass
+            temp = self.stickers[36]
+            self.stickers[36] = self.stickers[37]
+            self.stickers[37] = self.stickers[38]
+            self.stickers[38] = self.stickers[41]
+            self.stickers[41] = self.stickers[44]
+            self.stickers[44] = self.stickers[43]
+            self.stickers[43] = self.stickers[42]
+            self.stickers[42] = self.stickers[39]
+            self.stickers[39] = temp
     
     def print_cube(self):
         print("               ", self.stickers[18:21])
@@ -41,9 +54,9 @@ class RubiksCube:
 cube = RubiksCube()
 cube.print_cube()
 
-# cube.x_movement("up")
-# print("\nEstado después de mover hacia arriba:")
-# cube.print_cube()
+cube.x_movement("up")
+print("\nEstado después de mover hacia arriba:")
+cube.print_cube()
 
 cube.x_movement("down")
 print("\nEstado después de mover hacia abajo:")
