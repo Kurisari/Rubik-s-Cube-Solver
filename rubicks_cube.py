@@ -1,6 +1,6 @@
 class RubiksCube:
     def __init__(self):
-        self.stickers = ['F'] * 9 + ['B'] * 9 + ['U'] * 9 + ['D1'] + ['D'] * 8 + ['L'] * 9  + ['R'] * 9
+        self.stickers = ['F'] * 9 + ['B'] * 9 + ['U'] * 9 + ['D'] * 9 + ['L'] * 9  + ['R'] * 9
     
     def x_movement(self, direction, position):
         if position == "L":
@@ -10,7 +10,7 @@ class RubiksCube:
         if direction == "U":
                 temp = self.stickers[6+plus], self.stickers[3+plus], self.stickers[0+plus]
                 self.stickers[6+plus], self.stickers[3+plus], self.stickers[0+plus] = self.stickers[33+plus], self.stickers[30+plus], self.stickers[27+plus]
-                self.stickers[33+plus], self.stickers[30+plus], self.stickers[27+plus] = self.stickers[17-plus], self.stickers[14-plus], self.stickers[11-plus]
+                self.stickers[33+plus], self.stickers[30+plus], self.stickers[27+plus] = self.stickers[11-plus], self.stickers[14-plus], self.stickers[17-plus]
                 self.stickers[17-plus], self.stickers[14-plus], self.stickers[11-plus] = self.stickers[18+plus], self.stickers[21+plus], self.stickers[24+plus]
                 self.stickers[24+plus], self.stickers[21+plus], self.stickers[18+plus] = temp
                 if position == "L":
@@ -20,7 +20,7 @@ class RubiksCube:
         elif direction == "D":
             temp = self.stickers[0+plus], self.stickers[3+plus], self.stickers[6+plus]
             self.stickers[0+plus], self.stickers[3+plus], self.stickers[6+plus] = self.stickers[18+plus], self.stickers[21+plus], self.stickers[24+plus]
-            self.stickers[18+plus], self.stickers[21+plus], self.stickers[24+plus] = self.stickers[11-plus], self.stickers[14-plus], self.stickers[17-plus]
+            self.stickers[18+plus], self.stickers[21+plus], self.stickers[24+plus] = self.stickers[17-plus], self.stickers[14-plus], self.stickers[11-plus]
             self.stickers[11-plus], self.stickers[14-plus], self.stickers[17-plus] = self.stickers[33+plus], self.stickers[30+plus], self.stickers[27+plus]
             self.stickers[27+plus], self.stickers[30+plus], self.stickers[33+plus] = temp
             if position == "L":
@@ -176,11 +176,10 @@ class RubiksCube:
         print("               ", self.stickers[33:36])
 
 cube = RubiksCube()
-print(cube.stickers)
 cube.print_cube()
 print()
 cube.x_movement("D","R")
-cube.y_movement("U", "L")
 cube.z_movement("L", "D")
+cube.x_movement("U","R")
 
 cube.print_cube()
