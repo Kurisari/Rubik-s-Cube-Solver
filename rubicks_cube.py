@@ -1,6 +1,6 @@
 class RubiksCube:
     def __init__(self):
-        self.stickers = ['F'] * 9 + ['B'] * 9 + ['U'] * 9 + ['D'] * 9 + ['L'] * 9  + ['R'] * 9
+        self.stickers = ['F'] * 9 + ['B'] * 9 + ['U'] * 9 + ['D1'] + ['D'] * 8 + ['L'] * 9  + ['R'] * 9
     
     def x_movement(self, direction, position):
         if position == "L":
@@ -111,6 +111,59 @@ class RubiksCube:
             self.stickers[7+plus] = self.stickers[3+plus]
             self.stickers[3+plus] = temp
     
+    def z_movement(self, direction, position):
+        if position == "U":
+            plus = 0
+        elif position == "D":
+            plus = 6
+        if direction == "L":
+            temp = self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus]
+            self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus] = self.stickers[45+plus], self.stickers[46+plus], self.stickers[47+plus]
+            self.stickers[45+plus], self.stickers[46+plus], self.stickers[47+plus] = self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus]
+            self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus] = self.stickers[36+plus], self.stickers[37+plus], self.stickers[38+plus]
+            self.stickers[36+plus], self.stickers[37+plus], self.stickers[38+plus] = temp
+            if position == "U":
+                self.z_rotation("CW", position)
+            elif position == "D":
+                self.z_rotation("CCW", position)
+        elif direction == "R":
+            temp = self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus]
+            self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus] = self.stickers[36+plus], self.stickers[37+plus], self.stickers[38+plus]
+            self.stickers[36+plus], self.stickers[37+plus], self.stickers[38+plus] = self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus]
+            self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus] = self.stickers[45+plus], self.stickers[46+plus], self.stickers[47+plus]
+            self.stickers[45+plus], self.stickers[46+plus], self.stickers[47+plus] = temp
+            if position == "U":
+                self.z_rotation("CCW", position)
+            elif position == "D":
+                self.z_rotation("CW", position)
+    
+    def z_rotation(self, direction, position):
+        if position == "U":
+            plus = 0
+        elif position == "D":
+            plus = 9
+        if direction == "CW":
+            temp = self.stickers[18+plus]
+            self.stickers[18+plus] = self.stickers[24+plus]
+            self.stickers[24+plus] = self.stickers[26+plus]
+            self.stickers[26+plus] = self.stickers[20+plus]
+            self.stickers[20+plus] = temp
+            temp = self.stickers[19+plus]
+            self.stickers[19+plus] = self.stickers[21+plus]
+            self.stickers[21+plus] = self.stickers[25+plus]
+            self.stickers[25+plus] = self.stickers[23+plus]
+            self.stickers[23+plus] = temp
+        elif direction == "CCW":
+            temp = self.stickers[18+plus]
+            self.stickers[18+plus] = self.stickers[20+plus]
+            self.stickers[20+plus] = self.stickers[26+plus]
+            self.stickers[26+plus] = self.stickers[24+plus]
+            self.stickers[24+plus] = temp
+            temp = self.stickers[19+plus]
+            self.stickers[19+plus] = self.stickers[23+plus]
+            self.stickers[23+plus] = self.stickers[25+plus]
+            self.stickers[25+plus] = self.stickers[21+plus]
+            self.stickers[21+plus] = temp
     def print_cube(self):
         print("               ", self.stickers[18:21])
         print("               ", self.stickers[21:24])
@@ -128,5 +181,6 @@ cube.print_cube()
 print()
 cube.x_movement("D","R")
 cube.y_movement("U", "L")
+cube.z_movement("L", "D")
 
 cube.print_cube()
