@@ -77,7 +77,7 @@ class RubiksCube:
             self.stickers[45+plus], self.stickers[48+plus], self.stickers[51+plus] = self.stickers[24-plus2], self.stickers[25-plus2], self.stickers[26-plus2]
             self.stickers[24-plus2], self.stickers[25-plus2], self.stickers[26-plus2] = self.stickers[44-plus], self.stickers[41-plus], self.stickers[38-plus]
             self.stickers[44-plus], self.stickers[41-plus], self.stickers[38-plus] = self.stickers[27+plus2], self.stickers[28+plus2], self.stickers[29+plus2]
-            self.stickers[27+plus2], self.stickers[28+plus2], self.stickers[29+plus2] = temp
+            self.stickers[29+plus2], self.stickers[28+plus2], self.stickers[27+plus2] = temp
             if position == "L":
                 self.y_rotation("CW", position)
             elif position == "R":
@@ -205,6 +205,6 @@ cube.print_cube()
 # cube.x_movement("U","L")
 # cube.x_movement("U","L")
 # cube.z_movement("R", "D")
-cube.random_shuffle(1000)
+cube.random_shuffle(5)
 print()
 cube.print_cube()
