@@ -166,6 +166,16 @@ class RubiksCube:
             self.stickers[23+plus] = self.stickers[25+plus]
             self.stickers[25+plus] = self.stickers[21+plus]
             self.stickers[21+plus] = temp
+    
+    def count_stickers(self):
+        sticker_count = {}
+        for sticker in self.stickers:
+            if sticker in sticker_count:
+                sticker_count[sticker] += 1
+            else:
+                sticker_count[sticker] = 1
+        return sticker_count
+    
     def print_cube(self):
         print("               ", self.stickers[18:21])
         print("               ", self.stickers[21:24])
@@ -176,6 +186,7 @@ class RubiksCube:
         print("               ", self.stickers[27:30])
         print("               ", self.stickers[30:33])
         print("               ", self.stickers[33:36])
+        print("Sticker count:", self.count_stickers())
     
     def random_shuffle(self, movements):
         import random
@@ -188,12 +199,10 @@ class RubiksCube:
             else:
                 position = random.choice(["L","R"])
                 direction = random.choice(["U","D"])
-            print(movement, position, direction)
             if movement == "x":
                 self.x_movement(direction, position)
             elif movement == "y":
                 self.y_movement(direction, position)
-            self.print_cube()
 
 cube = RubiksCube()
 cube.print_cube()
@@ -205,6 +214,6 @@ cube.print_cube()
 # cube.x_movement("U","L")
 # cube.x_movement("U","L")
 # cube.z_movement("R", "D")
-cube.random_shuffle(5)
+cube.random_shuffle(1000)
 print()
 cube.print_cube()
