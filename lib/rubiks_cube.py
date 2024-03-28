@@ -1,6 +1,6 @@
 class RubiksCube:
     def __init__(self):
-        self.stickers = ['F'] * 9 + ['B'] * 9 + ['U'] * 9 + ['D'] * 9 + ['L'] * 9  + ['R'] * 9
+        self.stickers = ['W'] * 9 + ['Y'] * 9 + ['O'] * 9 + ['R'] * 9 + ['G'] * 9  + ['B'] * 9
     
     def x_movement(self, direction, position):
         if position == "L":
@@ -64,7 +64,7 @@ class RubiksCube:
             plus2 = 6
         if direction == "U":
             temp = self.stickers[51+plus], self.stickers[48+plus], self.stickers[45+plus]
-            self.stickers[45+plus], self.stickers[48+plus], self.stickers[51+plus] = self.stickers[29+plus], self.stickers[28+plus], self.stickers[27+plus]
+            self.stickers[51+plus], self.stickers[48+plus], self.stickers[45+plus] = self.stickers[29+plus2], self.stickers[28+plus2], self.stickers[27+plus2]
             self.stickers[29+plus2], self.stickers[28+plus2], self.stickers[27+plus2] = self.stickers[38-plus], self.stickers[41-plus], self.stickers[44-plus]
             self.stickers[38-plus], self.stickers[41-plus], self.stickers[44-plus] = self.stickers[26-plus2], self.stickers[25-plus2], self.stickers[24-plus2]
             self.stickers[26-plus2], self.stickers[25-plus2], self.stickers[24-plus2] = temp
@@ -114,12 +114,14 @@ class RubiksCube:
     def z_movement(self, direction, position):
         if position == "U":
             plus = 0
+            plus2 = 0
         elif position == "D":
             plus = 6
+            plus2 = 6
         if direction == "L":
             temp = self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus]
-            self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus] = self.stickers[45+plus], self.stickers[46+plus], self.stickers[47+plus]
-            self.stickers[45+plus], self.stickers[46+plus], self.stickers[47+plus] = self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus]
+            self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus] = self.stickers[45+plus2], self.stickers[46+plus2], self.stickers[47+plus2]
+            self.stickers[45+plus2], self.stickers[46+plus2], self.stickers[47+plus2] = self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus]
             self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus] = self.stickers[36+plus], self.stickers[37+plus], self.stickers[38+plus]
             self.stickers[36+plus], self.stickers[37+plus], self.stickers[38+plus] = temp
             if position == "U":
@@ -130,8 +132,8 @@ class RubiksCube:
             temp = self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus]
             self.stickers[0+plus], self.stickers[1+plus], self.stickers[2+plus] = self.stickers[36+plus], self.stickers[37+plus], self.stickers[38+plus]
             self.stickers[36+plus], self.stickers[37+plus], self.stickers[38+plus] = self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus]
-            self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus] = self.stickers[45+plus], self.stickers[46+plus], self.stickers[47+plus]
-            self.stickers[45+plus], self.stickers[46+plus], self.stickers[47+plus] = temp
+            self.stickers[9+plus], self.stickers[10+plus], self.stickers[11+plus] = self.stickers[45+plus2], self.stickers[46+plus2], self.stickers[47+plus2]
+            self.stickers[45+plus2], self.stickers[46+plus2], self.stickers[47+plus2] = temp
             if position == "U":
                 self.z_rotation("CCW", position)
             elif position == "D":
@@ -174,9 +176,27 @@ class RubiksCube:
         print("               ", self.stickers[27:30])
         print("               ", self.stickers[30:33])
         print("               ", self.stickers[33:36])
+    
+    def random_shuffle(self, movements):
+        import random
+        for _ in range(movements):
+            movement = random.choice(["x","y","z"])
+            if movement == "z":
+                position = random.choice(["U","D"])
+                direction = random.choice(["L","R"])
+                self.z_movement(direction, position)
+            else:
+                position = random.choice(["L","R"])
+                direction = random.choice(["U","D"])
+            print(movement, position, direction)
+            if movement == "x":
+                self.x_movement(direction, position)
+            elif movement == "y":
+                self.y_movement(direction, position)
+            self.print_cube()
 
-# cube = RubiksCube()
-# cube.print_cube()
+cube = RubiksCube()
+cube.print_cube()
 # print()
 # # cube.x_movement("D","R")
 # # cube.z_movement("L", "D")
@@ -185,5 +205,6 @@ class RubiksCube:
 # cube.x_movement("U","L")
 # cube.x_movement("U","L")
 # cube.z_movement("R", "D")
-
-# cube.print_cube()
+cube.random_shuffle(1000)
+print()
+cube.print_cube()
