@@ -76,7 +76,7 @@ class RubiksCube:
             temp = self.stickers[45+plus], self.stickers[48+plus], self.stickers[51+plus]
             self.stickers[45+plus], self.stickers[48+plus], self.stickers[51+plus] = self.stickers[24-plus2], self.stickers[25-plus2], self.stickers[26-plus2]
             self.stickers[24-plus2], self.stickers[25-plus2], self.stickers[26-plus2] = self.stickers[44-plus], self.stickers[41-plus], self.stickers[38-plus]
-            self.stickers[44-plus], self.stickers[41-plus], self.stickers[38-plus] = self.stickers[27+plus2], self.stickers[28+plus2], self.stickers[29+plus2]
+            self.stickers[44-plus], self.stickers[41-plus], self.stickers[38-plus] = self.stickers[29+plus2], self.stickers[28+plus2], self.stickers[27+plus2]
             self.stickers[29+plus2], self.stickers[28+plus2], self.stickers[27+plus2] = temp
             if position == "L":
                 self.y_rotation("CW", position)
@@ -203,17 +203,34 @@ class RubiksCube:
                 self.x_movement(direction, position)
             elif movement == "y":
                 self.y_movement(direction, position)
+    
+    def list_shuffle(self, movements):
+        for movement in movements:
+            movement_axis = movement[0]
+            movement_direction = movement[1]
+            movement_position = movement[2]
+            print(movement_axis, movement_direction, movement_position)
+            if movement_axis == "z":
+                self.z_movement(movement_direction, movement_position)
+            elif movement_axis == "x":
+                self.x_movement(movement_direction, movement_position)
+            elif movement_axis == "y":
+                self.y_movement(movement_direction, movement_position)
+            self.print_cube()
 
+list_movements = [ ["y", "D", "R"], ["y", "D", "L"], ["x", "D", "L"], ["x", "D", "R"], ["z", "L", "U"], ["z", "R", "D"]]
 cube = RubiksCube()
 cube.print_cube()
-# print()
-# # cube.x_movement("D","R")
-# # cube.z_movement("L", "D")
-# # cube.x_movement("U","R")
+print()
+cube.list_shuffle(list_movements)
+cube.print_cube()
+# cube.x_movement("D","R")
+# cube.z_movement("L", "D")
+# cube.x_movement("U","R")
 
 # cube.x_movement("U","L")
 # cube.x_movement("U","L")
 # cube.z_movement("R", "D")
-cube.random_shuffle(1000)
-print()
-cube.print_cube()
+# cube.random_shuffle(1000)
+# print()
+# cube.print_cube()
