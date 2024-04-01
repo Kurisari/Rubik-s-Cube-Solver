@@ -209,13 +209,11 @@ class RubiksCube:
             movement_axis = movement[0]
             movement_direction = movement[1]
             movement_position = movement[2]
-            print(movement_axis, movement_direction, movement_position)
             if movement_axis == "z":
                 self.z_movement(movement_direction, movement_position)
             elif movement_axis == "x":
                 self.x_movement(movement_direction, movement_position)
             elif movement_axis == "y":
                 self.y_movement(movement_direction, movement_position)
-            self.print_cube()
 
 # lista = [["x", "U", "L"], ["y", "D", "L"], ["z", "L", "D"]]
