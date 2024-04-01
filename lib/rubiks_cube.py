@@ -217,20 +217,3 @@ class RubiksCube:
             elif movement_axis == "y":
                 self.y_movement(movement_direction, movement_position)
             self.print_cube()
-
-list_movements = [ ["y", "D", "R"], ["y", "D", "L"], ["x", "D", "L"], ["x", "D", "R"], ["z", "L", "U"], ["z", "R", "D"]]
-cube = RubiksCube()
-cube.print_cube()
-print()
-cube.list_shuffle(list_movements)
-cube.print_cube()
-# cube.x_movement("D","R")
-# cube.z_movement("L", "D")
-# cube.x_movement("U","R")
-
-# cube.x_movement("U","L")
-# cube.x_movement("U","L")
-# cube.z_movement("R", "D")
-# cube.random_shuffle(1000)
-# print()
-# cube.print_cube()
