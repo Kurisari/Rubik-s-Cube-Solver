@@ -64,8 +64,8 @@ class RubiksCube:
             plus2 = 6
         if direction == "U":
             temp = self.stickers[51+plus], self.stickers[48+plus], self.stickers[45+plus]
-            self.stickers[51+plus], self.stickers[48+plus], self.stickers[45+plus] = self.stickers[29+plus2], self.stickers[28+plus2], self.stickers[27+plus2]
-            self.stickers[29+plus2], self.stickers[28+plus2], self.stickers[27+plus2] = self.stickers[38-plus], self.stickers[41-plus], self.stickers[44-plus]
+            self.stickers[45+plus], self.stickers[48+plus], self.stickers[51+plus] = self.stickers[29+plus2], self.stickers[28+plus2], self.stickers[27+plus2]
+            self.stickers[27+plus2], self.stickers[28+plus2], self.stickers[29+plus2] = self.stickers[38-plus], self.stickers[41-plus], self.stickers[44-plus]
             self.stickers[38-plus], self.stickers[41-plus], self.stickers[44-plus] = self.stickers[26-plus2], self.stickers[25-plus2], self.stickers[24-plus2]
             self.stickers[26-plus2], self.stickers[25-plus2], self.stickers[24-plus2] = temp
             if position == "L":
@@ -199,6 +199,7 @@ class RubiksCube:
             else:
                 position = random.choice(["L","R"])
                 direction = random.choice(["U","D"])
+            print(movement, direction, position)
             if movement == "x":
                 self.x_movement(direction, position)
             elif movement == "y":
@@ -215,5 +216,16 @@ class RubiksCube:
                 self.x_movement(movement_direction, movement_position)
             elif movement_axis == "y":
                 self.y_movement(movement_direction, movement_position)
+    
+    def move(self, movement):
+        movement_axis = movement[0]
+        movement_direction = movement[1]
+        movement_position = movement[2]
+        if movement_axis == "z":
+            self.z_movement(movement_direction, movement_position)
+        elif movement_axis == "x":
+            self.x_movement(movement_direction, movement_position)
+        elif movement_axis == "y":
+            self.y_movement(movement_direction, movement_position)
 
 # lista = [["x", "U", "L"], ["y", "D", "L"], ["z", "L", "D"]]
