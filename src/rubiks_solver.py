@@ -2,10 +2,8 @@ import os
 import sys
 from collections import deque
 import copy
-import heapq
+from queue import PriorityQueue
 import time
-import random
-import math
 script_dir = os.getcwd()
 func_dir = os.path.join(script_dir)
 sys.path.append(func_dir)
@@ -60,10 +58,10 @@ class RubiksSolver:
     
     def best_first_search(self): # Mejor de los casos 6 movimientos Heuristica 1
         visited = set()
-        priority_queue = []
-        heapq.heappush(priority_queue, (0, [], self.cube))
-        while priority_queue:
-            _, moves, current_cube = heapq.heappop(priority_queue)
+        priority_queue = PriorityQueue()
+        priority_queue.put((0, [], self.cube))
+        while not priority_queue.empty():
+            _, moves, current_cube = priority_queue.get()
             if self.is_solved(current_cube):
                 return len(moves), moves
             if current_cube not in visited:
@@ -73,16 +71,15 @@ class RubiksSolver:
                     new_cube.move(move)
                     if new_cube not in visited:
                         priority = hr.Heuristics.estimate_moves_to_solve(new_cube)
-                        heapq.heappush(priority_queue, (priority, moves + [move], new_cube))
+                        priority_queue.put((priority, moves + [move], new_cube))
         return None
 
-    
     def a_star_search(self): # Mejor de los casos 7 movimientos Heuristica 1
         visited = set()
-        priority_queue = []
-        heapq.heappush(priority_queue, (0, [], self.cube))
-        while priority_queue:
-            _, moves, current_cube = heapq.heappop(priority_queue)
+        priority_queue = PriorityQueue()
+        priority_queue.put((0, [], self.cube))
+        while not priority_queue.empty():
+            _, moves, current_cube = priority_queue.get()
             if self.is_solved(current_cube):
                 return len(moves), moves
             if current_cube not in visited:
@@ -92,10 +89,10 @@ class RubiksSolver:
                     new_cube.move(move)
                     if new_cube not in visited:
                         priority = len(moves) + hr.Heuristics.estimate_moves_to_solve(new_cube)
-                        heapq.heappush(priority_queue, (priority, moves + [move], new_cube))
+                        priority_queue.put((priority, moves + [move], new_cube))
         return None
     
-    def ida_star_search(self):
+    def ida_star_search(self): # 7 movimientos con 6 movements heuristica 2
         threshold = hr.Heuristics.estimate_moves_to_solve1(self.cube)
         while True:
             result = self.search_depth_limit(self.cube, [], threshold)
@@ -130,6 +127,6 @@ prueba = RubiksSolver()
 prueba.shuffle_cube(5)
 prueba.print_cube()
 start = time.time()
-print(prueba.ida_star_search())
+print(prueba.breadth_first_search())
 end = time.time()
 print(end - start)

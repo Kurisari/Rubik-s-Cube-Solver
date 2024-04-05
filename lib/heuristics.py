@@ -24,13 +24,13 @@ class Heuristics:
     def count_misplaced_stickers(cube):
         misplaced = 0
         for i in range(9):
-            if cube.stickers[i] != cube.stickers[4]:  # Check upper face
+            if cube.stickers[i] != cube.stickers[4]:
                 misplaced += 1
-            if cube.stickers[i+18] != cube.stickers[22]:  # Check lower face
+            if cube.stickers[i+18] != cube.stickers[22]:
                 misplaced += 1
             if i % 3 != 1:
-                if cube.stickers[i*3] != cube.stickers[i*3+1]:  # Check left face
+                if cube.stickers[i*3] != cube.stickers[i*3+1]:
                     misplaced += 1
-                if cube.stickers[i*3+2] != cube.stickers[i*3+1]:  # Check right face
+                if cube.stickers[i*3+2] != cube.stickers[i*3+1]:
                     misplaced += 1
         return misplaced
