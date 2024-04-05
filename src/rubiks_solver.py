@@ -4,6 +4,8 @@ from collections import deque
 import copy
 import heapq
 import time
+import random
+import math
 script_dir = os.getcwd()
 func_dir = os.path.join(script_dir)
 sys.path.append(func_dir)
@@ -92,15 +94,42 @@ class RubiksSolver:
                         priority = len(moves) + hr.Heuristics.estimate_moves_to_solve(new_cube)
                         heapq.heappush(priority_queue, (priority, moves + [move], new_cube))
         return None
+    
+    def ida_star_search(self):
+        threshold = hr.Heuristics.estimate_moves_to_solve1(self.cube)
+        while True:
+            result = self.search_depth_limit(self.cube, [], threshold)
+            if result is not None:
+                return len(result), result
+            threshold += 1
+    
+    def search_depth_limit(self, current_cube, moves, threshold):
+        cost = len(moves) + hr.Heuristics.estimate_moves_to_solve1(current_cube)
+        if cost > threshold:
+            return None
+        if self.is_solved(current_cube):
+            return moves
+        min_cost = float('inf')
+        best_moves = None
+        for move in self.movements:
+            new_cube = copy.deepcopy(current_cube)
+            new_cube.move(move)
+            new_moves = moves + [move]
+            result = self.search_depth_limit(new_cube, new_moves, threshold)
+            if result is not None:
+                if min_cost == float('inf') or len(result) < min_cost:
+                    min_cost = len(result)
+                    best_moves = result
+        return best_moves
 
     def print_cube(self):
         self.cube.print_cube()
 
 lista = [["x", "D", "L"], ["y", "U", "L"], ["x", "U", "L"], ["y", "U", "R"], ["x", "D", "R"]]
 prueba = RubiksSolver()
-prueba.shuffle_cube(movement_list=lista)
+prueba.shuffle_cube(5)
 prueba.print_cube()
 start = time.time()
-print(prueba.a_star_search())
+print(prueba.ida_star_search())
 end = time.time()
 print(end - start)
