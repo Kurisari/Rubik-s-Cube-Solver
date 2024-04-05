@@ -227,5 +227,3 @@ class RubiksCube:
             self.x_movement(movement_direction, movement_position)
         elif movement_axis == "y":
             self.y_movement(movement_direction, movement_position)
-
-# lista = [["x", "U", "L"], ["y", "D", "L"], ["z", "L", "D"]]
