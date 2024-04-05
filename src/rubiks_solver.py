@@ -17,7 +17,7 @@ class RubiksSolver:
             ["x", "U", "L"],
             ["x", "U", "R"],
             ["x", "D", "L"],
-            ["x", "D", "R"], 
+            ["x", "D", "R"],
             ["y", "U", "L"],
             ["y", "U", "R"],
             ["y", "D", "L"],
@@ -56,7 +56,26 @@ class RubiksSolver:
                     queue.append((new_cube, moves + [move]))
                     visited.add(new_cube)
     
-    def best_first_search(self):
+    def best_first_search(self): # Mejor de los casos 6 movimientos Heuristica 1
+        visited = set()
+        priority_queue = []
+        heapq.heappush(priority_queue, (0, [], self.cube))
+        while priority_queue:
+            _, moves, current_cube = heapq.heappop(priority_queue)
+            if self.is_solved(current_cube):
+                return len(moves), moves
+            if current_cube not in visited:
+                visited.add(current_cube)
+                for move in self.movements:
+                    new_cube = copy.deepcopy(current_cube)
+                    new_cube.move(move)
+                    if new_cube not in visited:
+                        priority = hr.Heuristics.estimate_moves_to_solve(new_cube)
+                        heapq.heappush(priority_queue, (priority, moves + [move], new_cube))
+        return None
+
+    
+    def a_star_search(self): # Mejor de los casos 7 movimientos Heuristica 1
         visited = set()
         priority_queue = []
         heapq.heappush(priority_queue, (0, [], self.cube))
@@ -72,30 +91,16 @@ class RubiksSolver:
                     if new_cube not in visited:
                         priority = len(moves) + hr.Heuristics.estimate_moves_to_solve(new_cube)
                         heapq.heappush(priority_queue, (priority, moves + [move], new_cube))
-
-        return None  # Si no se encuentra una solución
-
-
-    
-    def a_star_search(self):
-        pass
+        return None
 
     def print_cube(self):
         self.cube.print_cube()
 
-# lista = [["x", "U", "L"], ["y", "D", "L"], ["z", "L", "D"]]
 lista = [["x", "D", "L"], ["y", "U", "L"], ["x", "U", "L"], ["y", "U", "R"], ["x", "D", "R"]]
 prueba = RubiksSolver()
+prueba.shuffle_cube(movement_list=lista)
 prueba.print_cube()
-prueba.shuffle_cube(5)
-prueba.print_cube()
-# time1 = time.time()
-# print(prueba.breadth_first_search())
-# time2 = time.time()
-# print(time2 - time1)
-# print()
-# prueba.shuffle_cube(movement_list=lista)
 start = time.time()
-print(prueba.best_first_search())
+print(prueba.a_star_search())
 end = time.time()
 print(end - start)
