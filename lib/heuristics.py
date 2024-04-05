@@ -1,4 +1,5 @@
 class Heuristics:
+    # Heuristica 1
     @staticmethod
     def estimate_moves_to_solve(cube):
         upper_layer_moves = Heuristics.estimate_moves_for_layer(cube, [18, 19, 20, 21, 22, 23, 24, 25, 26])
@@ -12,3 +13,24 @@ class Heuristics:
         correct_stickers = sum(1 for i in stickers_indices if cube.stickers[i] == cube.stickers[i // 9 * 9])
         moves_needed = len(stickers_indices) - correct_stickers
         return moves_needed
+    
+    # Heuristica 2
+    @staticmethod
+    def estimate_moves_to_solve1(cube):
+        misplaced_stickers = Heuristics.count_misplaced_stickers(cube)
+        return misplaced_stickers
+    
+    @staticmethod
+    def count_misplaced_stickers(cube):
+        misplaced = 0
+        for i in range(9):
+            if cube.stickers[i] != cube.stickers[4]:  # Check upper face
+                misplaced += 1
+            if cube.stickers[i+18] != cube.stickers[22]:  # Check lower face
+                misplaced += 1
+            if i % 3 != 1:
+                if cube.stickers[i*3] != cube.stickers[i*3+1]:  # Check left face
+                    misplaced += 1
+                if cube.stickers[i*3+2] != cube.stickers[i*3+1]:  # Check right face
+                    misplaced += 1
+        return misplaced
