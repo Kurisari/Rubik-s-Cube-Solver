@@ -2,17 +2,15 @@ class Heuristics:
     # Heuristica 1
     @staticmethod
     def estimate_moves_to_solve(cube):
-        upper_layer_moves = Heuristics.estimate_moves_for_layer(cube, [18, 19, 20, 21, 22, 23, 24, 25, 26])
-        middle_layer_moves = Heuristics.estimate_moves_for_layer(cube, [0, 1, 2, 3, 4, 5, 6, 7, 8])
-        lower_layer_moves = Heuristics.estimate_moves_for_layer(cube, [27, 28, 29, 30, 31, 32, 33, 34, 35])
-        total_moves = upper_layer_moves + middle_layer_moves + lower_layer_moves
+        total_moves = 0
+        # Caras fronal, trasera y superior respectivamente
+        for layer in [cube.stickers[0:9], cube.stickers[9:18], cube.stickers[18:27]]:
+            incorrect_blocks = sum(1 for i, sticker in enumerate(layer) if sticker != layer[i // 3 * 3])
+            incorrect_orientation = sum(1 for i, sticker in enumerate(layer) if i % 3 != 1 and sticker != layer[i // 3 * 3 + 1])
+            distances = [abs(i // 3 - i % 3) for i, sticker in enumerate(layer)]
+            total_distance = sum(distances)
+            total_moves += incorrect_blocks + incorrect_orientation + total_distance
         return total_moves
-
-    @staticmethod
-    def estimate_moves_for_layer(cube, stickers_indices):
-        correct_stickers = sum(1 for i in stickers_indices if cube.stickers[i] == cube.stickers[i // 9 * 9])
-        moves_needed = len(stickers_indices) - correct_stickers
-        return moves_needed
     
     # Heuristica 2
     @staticmethod
