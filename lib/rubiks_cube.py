@@ -1,22 +1,31 @@
 class RubiksCube:
     def __init__(self):
+        """
+        W = White (Cara frontal)
+        Y = Yellow (Cara trasera)
+        O = Orange (Cara superior)
+        R = Red (Cara inferior)
+        G = Green (Cara izquierda)
+        B = Blue (Cara derecha)
+        """
         self.stickers = ['W'] * 9 + ['Y'] * 9 + ['O'] * 9 + ['R'] * 9 + ['G'] * 9  + ['B'] * 9
     
     def x_movement(self, direction, position):
+        # Movimiento de los stickers con perspectiva de la cara frontal, girando sobre el eje x
         if position == "L":
             plus = 0
         elif position == "R":
             plus = 2
         if direction == "U":
-                temp = self.stickers[6+plus], self.stickers[3+plus], self.stickers[0+plus]
-                self.stickers[6+plus], self.stickers[3+plus], self.stickers[0+plus] = self.stickers[33+plus], self.stickers[30+plus], self.stickers[27+plus]
-                self.stickers[33+plus], self.stickers[30+plus], self.stickers[27+plus] = self.stickers[11-plus], self.stickers[14-plus], self.stickers[17-plus]
-                self.stickers[17-plus], self.stickers[14-plus], self.stickers[11-plus] = self.stickers[18+plus], self.stickers[21+plus], self.stickers[24+plus]
-                self.stickers[24+plus], self.stickers[21+plus], self.stickers[18+plus] = temp
-                if position == "L":
-                    self.x_rotation("CCW", position)
-                elif position == "R":
-                    self.x_rotation("CW", position)
+            temp = self.stickers[6+plus], self.stickers[3+plus], self.stickers[0+plus]
+            self.stickers[6+plus], self.stickers[3+plus], self.stickers[0+plus] = self.stickers[33+plus], self.stickers[30+plus], self.stickers[27+plus]
+            self.stickers[33+plus], self.stickers[30+plus], self.stickers[27+plus] = self.stickers[11-plus], self.stickers[14-plus], self.stickers[17-plus]
+            self.stickers[17-plus], self.stickers[14-plus], self.stickers[11-plus] = self.stickers[18+plus], self.stickers[21+plus], self.stickers[24+plus]
+            self.stickers[24+plus], self.stickers[21+plus], self.stickers[18+plus] = temp
+            if position == "L":
+                self.x_rotation("CCW", position)
+            elif position == "R":
+                self.x_rotation("CW", position)
         elif direction == "D":
             temp = self.stickers[0+plus], self.stickers[3+plus], self.stickers[6+plus]
             self.stickers[0+plus], self.stickers[3+plus], self.stickers[6+plus] = self.stickers[18+plus], self.stickers[21+plus], self.stickers[24+plus]
@@ -27,7 +36,9 @@ class RubiksCube:
                 self.x_rotation("CW", position)
             elif position == "R":
                 self.x_rotation("CCW", position)
+    
     def x_rotation(self, direction, position):
+        # Rotación de los stickers de las caras derecha e izquierda, respectivamente
         if position == "L":
             plus = 0
         elif position == "R":
@@ -56,6 +67,7 @@ class RubiksCube:
             self.stickers[39+plus] = temp
     
     def y_movement(self, direction, position):
+        # Movimiento de los stickers con perspectiva de la cara derecha, girando sobre el eje y
         if position == "L":
             plus = 0
             plus2 = 0
@@ -84,6 +96,7 @@ class RubiksCube:
                 self.y_rotation("CCW", position)
     
     def y_rotation(self, direction, position):
+        # Rotación de los stickers de las caras frontal y trasera, respectivamente
         if position == "L":
             plus = 0
         elif position == "R":
@@ -112,6 +125,7 @@ class RubiksCube:
             self.stickers[3+plus] = temp
     
     def z_movement(self, direction, position):
+        # Movimiento de los stickers con perspectiva de la cara frontal, girando sobre el eje z
         if position == "U":
             plus = 0
             plus2 = 0
@@ -140,6 +154,7 @@ class RubiksCube:
                 self.z_rotation("CW", position)
     
     def z_rotation(self, direction, position):
+        # Rotación de los stickers de las caras superior e inferior, respectivamente
         if position == "U":
             plus = 0
         elif position == "D":
@@ -168,6 +183,7 @@ class RubiksCube:
             self.stickers[21+plus] = temp
     
     def count_stickers(self):
+        # Función para comprobar cuántas veces se repite cada sticker
         sticker_count = {}
         for sticker in self.stickers:
             if sticker in sticker_count:
