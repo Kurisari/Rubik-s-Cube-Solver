@@ -27,6 +27,14 @@ class RubiksSolver:
             ["z", "R", "U"],
             ["z", "R", "D"]
         ]
+        self.movements2 = [
+            ["x", "U", "L"],
+            ["x", "U", "R"],
+            ["y", "U", "L"],
+            ["y", "U", "R"],
+            ["z", "L", "U"],
+            ["z", "L", "D"]
+        ]
     
     def is_solved(self, cube):
         for i in range(0, 45, 9):
@@ -51,11 +59,10 @@ class RubiksSolver:
             for move in self.movements:
                 new_cube = copy.deepcopy(current_cube)
                 new_cube.move(move)
-                
                 if new_cube not in visited:
                     queue.append((new_cube, moves + [move]))
                     visited.add(new_cube)
-    
+
     def best_first_search(self): # Mejor de los casos 6 movimientos Heuristica 1
         visited = set()
         priority_queue = PriorityQueue()
@@ -72,7 +79,6 @@ class RubiksSolver:
                     if new_cube not in visited:
                         priority = hr.Heuristics.estimate_moves_to_solve(new_cube)
                         priority_queue.put((priority, moves + [move], new_cube))
-        return None
 
     def a_star_search(self): # Mejor de los casos 7 movimientos Heuristica 1
         visited = set()
@@ -84,16 +90,16 @@ class RubiksSolver:
                 return len(moves), moves
             if current_cube not in visited:
                 visited.add(current_cube)
-                for move in self.movements:
+                for move in self.movements2:
                     new_cube = copy.deepcopy(current_cube)
                     new_cube.move(move)
                     if new_cube not in visited:
-                        priority = len(moves) + hr.Heuristics.estimate_moves_to_solve(new_cube)
+                        priority = len(moves) + hr.Heuristics.estimate_moves_to_solve1(new_cube)
                         priority_queue.put((priority, moves + [move], new_cube))
         return None
     
     def ida_star_search(self): # 7 movimientos con 6 movements heuristica 2
-        threshold = hr.Heuristics.estimate_moves_to_solve1(self.cube)
+        threshold = hr.Heuristics.estimate_moves_to_solve(self.cube)
         while True:
             result = self.search_depth_limit(self.cube, [], threshold)
             if result is not None:
@@ -101,14 +107,14 @@ class RubiksSolver:
             threshold += 1
     
     def search_depth_limit(self, current_cube, moves, threshold):
-        cost = len(moves) + hr.Heuristics.estimate_moves_to_solve1(current_cube)
+        cost = len(moves) + hr.Heuristics.estimate_moves_to_solve(current_cube)
         if cost > threshold:
             return None
         if self.is_solved(current_cube):
             return moves
         min_cost = float('inf')
         best_moves = None
-        for move in self.movements:
+        for move in self.movements2:
             new_cube = copy.deepcopy(current_cube)
             new_cube.move(move)
             new_moves = moves + [move]
@@ -124,9 +130,9 @@ class RubiksSolver:
 
 lista = [["x", "D", "L"], ["y", "U", "L"], ["x", "U", "L"], ["y", "U", "R"], ["x", "D", "R"]]
 prueba = RubiksSolver()
-prueba.shuffle_cube(5)
+prueba.shuffle_cube(2)
 prueba.print_cube()
 start = time.time()
-print(prueba.breadth_first_search())
+print(prueba.ida_star_search())
 end = time.time()
 print(end - start)
