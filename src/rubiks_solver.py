@@ -73,14 +73,14 @@ class RubiksSolver:
                 return len(moves), moves
             if current_cube not in visited:
                 visited.add(current_cube)
-                for move in self.movements:
+                for move in self.movements2:
                     new_cube = copy.deepcopy(current_cube)
                     new_cube.move(move)
                     if new_cube not in visited:
-                        priority = hr.Heuristics.estimate_moves_to_solve(new_cube)
+                        priority = hr.Heuristics.estimate_moves_to_solve1(new_cube)
                         priority_queue.put((priority, moves + [move], new_cube))
 
-    def a_star_search(self): # Mejor de los casos 7 movimientos Heuristica 1
+    def a_star_search(self): # Mejor de los casos 6 movimientos Heuristica 1
         visited = set()
         priority_queue = PriorityQueue()
         priority_queue.put((0, [], self.cube))
@@ -130,9 +130,9 @@ class RubiksSolver:
 
 lista = [["x", "D", "L"], ["y", "U", "L"], ["x", "U", "L"], ["y", "U", "R"], ["x", "D", "R"]]
 prueba = RubiksSolver()
-prueba.shuffle_cube(2)
+prueba.shuffle_cube(5)
 prueba.print_cube()
-start = time.time()
+start_time = time.time()
 print(prueba.ida_star_search())
-end = time.time()
-print(end - start)
+elapsed_time = time.time() - start_time
+print("\rTime elapsed: {:.2f} seconds".format(elapsed_time), end="", flush=True)
