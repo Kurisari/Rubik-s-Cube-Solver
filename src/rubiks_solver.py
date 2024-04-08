@@ -49,7 +49,7 @@ class RubiksSolver:
         else:
             self.cube.list_shuffle(movement_list)
     
-    def breadth_first_search(self): # Máximo 5 movimientos
+    def breadth_first_search(self):
         queue = deque([(self.cube, [])])
         visited = set()
         while queue:
@@ -63,7 +63,7 @@ class RubiksSolver:
                     queue.append((new_cube, moves + [move]))
                     visited.add(new_cube)
 
-    def best_first_search(self): # Mejor de los casos 6 movimientos Heuristica 1
+    def best_first_search(self):
         visited = set()
         priority_queue = PriorityQueue()
         priority_queue.put((0, [], self.cube))
@@ -82,7 +82,7 @@ class RubiksSolver:
                         new_cube.heuristic = priority
                         priority_queue.put((priority, moves + [move], new_cube))
 
-    def a_star_search(self): # Mejor de los casos 6 movimientos Heuristica 1
+    def a_star_search(self):
         visited = set()
         priority_queue = PriorityQueue()
         priority_queue.put((0, [], self.cube))
@@ -102,7 +102,7 @@ class RubiksSolver:
                         priority_queue.put((priority, moves + [move], new_cube))
         return None
     
-    def ida_star_search(self): # 7 movimientos con 6 movements heuristica 2
+    def ida_star_search(self):
         target = rc.RubiksCube()
         threshold = hr.Heuristics.count_incorrect_orientations(self.cube)
         while True:

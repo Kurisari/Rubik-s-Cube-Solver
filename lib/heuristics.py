@@ -13,7 +13,6 @@ class Heuristics:
         for i in range(len(cube.stickers)):
             current_sticker = cube.stickers[i]
             target_index = target.stickers.index(current_sticker)
-            # Calculate horizontal and vertical distances
             current_row, current_col = i // 3, i % 3
             target_row, target_col = target_index // 3, target_index % 3
             distance += abs(current_row - target_row) + abs(current_col - target_col)
@@ -23,14 +22,14 @@ class Heuristics:
     def count_incorrect_orientations(cube):
         incorrect_orientations = 0
         for i in range(9):
-            if cube.stickers[i] != cube.stickers[4]:  # Check if the sticker is not in the center
+            if cube.stickers[i] != cube.stickers[4]:
                 incorrect_orientations += 1
-            if cube.stickers[i+18] != cube.stickers[22]:  # Check if the sticker is not in the center
+            if cube.stickers[i+18] != cube.stickers[22]:
                 incorrect_orientations += 1
             if i % 3 != 1:
-                if cube.stickers[i*3] != cube.stickers[i*3+1]:  # Check if the sticker is not adjacent to the center
+                if cube.stickers[i*3] != cube.stickers[i*3+1]:
                     incorrect_orientations += 1
-                if cube.stickers[i*3+2] != cube.stickers[i*3+1]:  # Check if the sticker is not adjacent to the center
+                if cube.stickers[i*3+2] != cube.stickers[i*3+1]:
                     incorrect_orientations += 1
         return incorrect_orientations
     
