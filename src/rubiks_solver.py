@@ -78,7 +78,7 @@ class RubiksSolver:
                     new_cube = copy.deepcopy(current_cube)
                     new_cube.move(move)
                     if new_cube not in visited:
-                        priority = hr.Heuristics.count_misplaced_stickers(new_cube, target)
+                        priority = hr.Heuristics.count_incorrect_orientations(new_cube)
                         new_cube.heuristic = priority
                         priority_queue.put((priority, moves + [move], new_cube))
 
@@ -97,14 +97,14 @@ class RubiksSolver:
                     new_cube = copy.deepcopy(current_cube)
                     new_cube.move(move)
                     if new_cube not in visited:
-                        priority = len(moves) + hr.Heuristics.count_misplaced_stickers(new_cube, target)
+                        priority = len(moves) + hr.Heuristics.count_incorrect_orientations(new_cube)
                         new_cube.heuristic = priority
                         priority_queue.put((priority, moves + [move], new_cube))
         return None
     
     def ida_star_search(self): # 7 movimientos con 6 movements heuristica 2
         target = rc.RubiksCube()
-        threshold = hr.Heuristics.count_misplaced_stickers(self.cube, target)
+        threshold = hr.Heuristics.count_incorrect_orientations(self.cube)
         while True:
             result = self.search_depth_limit(self.cube, [], threshold)
             if result is not None:
@@ -113,7 +113,7 @@ class RubiksSolver:
     
     def search_depth_limit(self, current_cube, moves, threshold):
         target = rc.RubiksCube()
-        cost = len(moves) + hr.Heuristics.count_misplaced_stickers(current_cube, target)
+        cost = len(moves) + hr.Heuristics.count_incorrect_orientations(current_cube)
         if cost > threshold:
             return None
         if self.is_solved(current_cube):
@@ -136,7 +136,7 @@ class RubiksSolver:
 
 lista = [["x", "D", "L"], ["y", "U", "L"], ["x", "U", "L"], ["y", "U", "R"], ["x", "D", "R"]]
 prueba = RubiksSolver()
-prueba.shuffle_cube(4)
+prueba.shuffle_cube(1)
 prueba.print_cube()
 start_time = time.time()
 print(prueba.ida_star_search())
