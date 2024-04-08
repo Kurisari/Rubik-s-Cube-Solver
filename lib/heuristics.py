@@ -20,17 +20,19 @@ class Heuristics:
         return distance
     
     @staticmethod
-    def complete_rows_columns(cube, target):
-        complete_count = 0
-        for face_start in range(0, len(cube.stickers), 9):
-            face = cube.stickers[face_start:face_start + 9]
-            target_face = target.stickers[face_start:face_start + 9]
-            for i in range(3):
-                if all(face[i * 3:(i + 1) * 3] == [target_face[i], target_face[i], target_face[i]]):
-                    complete_count += 1
-                if all(face[i:9:3] == [target_face[i], target_face[i + 3], target_face[i + 6]]):
-                    complete_count += 1
-        return complete_count
+    def count_incorrect_orientations(cube):
+        incorrect_orientations = 0
+        for i in range(9):
+            if cube.stickers[i] != cube.stickers[4]:  # Check if the sticker is not in the center
+                incorrect_orientations += 1
+            if cube.stickers[i+18] != cube.stickers[22]:  # Check if the sticker is not in the center
+                incorrect_orientations += 1
+            if i % 3 != 1:
+                if cube.stickers[i*3] != cube.stickers[i*3+1]:  # Check if the sticker is not adjacent to the center
+                    incorrect_orientations += 1
+                if cube.stickers[i*3+2] != cube.stickers[i*3+1]:  # Check if the sticker is not adjacent to the center
+                    incorrect_orientations += 1
+        return incorrect_orientations
     
     # Heuristica 1
     # @staticmethod
