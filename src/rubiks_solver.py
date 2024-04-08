@@ -67,6 +67,7 @@ class RubiksSolver:
         visited = set()
         priority_queue = PriorityQueue()
         priority_queue.put((0, [], self.cube))
+        target = rc.RubiksCube()
         while not priority_queue.empty():
             _, moves, current_cube = priority_queue.get()
             if self.is_solved(current_cube):
@@ -77,13 +78,15 @@ class RubiksSolver:
                     new_cube = copy.deepcopy(current_cube)
                     new_cube.move(move)
                     if new_cube not in visited:
-                        priority = hr.Heuristics.estimate_moves_to_solve1(new_cube)
+                        priority = hr.Heuristics.count_misplaced_stickers(new_cube, target)
+                        new_cube.heuristic = priority
                         priority_queue.put((priority, moves + [move], new_cube))
 
     def a_star_search(self): # Mejor de los casos 6 movimientos Heuristica 1
         visited = set()
         priority_queue = PriorityQueue()
         priority_queue.put((0, [], self.cube))
+        target = rc.RubiksCube()
         while not priority_queue.empty():
             _, moves, current_cube = priority_queue.get()
             if self.is_solved(current_cube):
@@ -94,12 +97,14 @@ class RubiksSolver:
                     new_cube = copy.deepcopy(current_cube)
                     new_cube.move(move)
                     if new_cube not in visited:
-                        priority = len(moves) + hr.Heuristics.estimate_moves_to_solve1(new_cube)
+                        priority = len(moves) + hr.Heuristics.count_misplaced_stickers(new_cube, target)
+                        new_cube.heuristic = priority
                         priority_queue.put((priority, moves + [move], new_cube))
         return None
     
     def ida_star_search(self): # 7 movimientos con 6 movements heuristica 2
-        threshold = hr.Heuristics.estimate_moves_to_solve(self.cube)
+        target = rc.RubiksCube()
+        threshold = hr.Heuristics.count_misplaced_stickers(self.cube, target)
         while True:
             result = self.search_depth_limit(self.cube, [], threshold)
             if result is not None:
@@ -107,7 +112,8 @@ class RubiksSolver:
             threshold += 1
     
     def search_depth_limit(self, current_cube, moves, threshold):
-        cost = len(moves) + hr.Heuristics.estimate_moves_to_solve(current_cube)
+        target = rc.RubiksCube()
+        cost = len(moves) + hr.Heuristics.count_misplaced_stickers(current_cube, target)
         if cost > threshold:
             return None
         if self.is_solved(current_cube):
@@ -130,7 +136,7 @@ class RubiksSolver:
 
 lista = [["x", "D", "L"], ["y", "U", "L"], ["x", "U", "L"], ["y", "U", "R"], ["x", "D", "R"]]
 prueba = RubiksSolver()
-prueba.shuffle_cube(5)
+prueba.shuffle_cube(4)
 prueba.print_cube()
 start_time = time.time()
 print(prueba.ida_star_search())
