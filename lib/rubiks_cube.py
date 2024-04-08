@@ -9,6 +9,10 @@ class RubiksCube:
         B = Blue (Cara derecha)
         """
         self.stickers = ['W'] * 9 + ['Y'] * 9 + ['O'] * 9 + ['R'] * 9 + ['G'] * 9  + ['B'] * 9
+        self.heuristic = -1
+    
+    def __lt__(self, other):
+        return self.heuristic < other.heuristic
     
     def x_movement(self, direction, position):
         # Movimiento de los stickers con perspectiva de la cara frontal, girando sobre el eje x
